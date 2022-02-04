@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+import Navbar from "./components/Navbar";
+import Home from "./components/Home";
+import About from "./components/About";
 
 function App() {
+  const birds = useSelector((state) => state.birds);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar />
+      <h1>Bird List</h1>
+      <ul>
+        {birds.map((bird) => (
+          <li key={bird.name}>
+            <h3>{bird.name}</h3>
+            <div>Views: {bird.views}</div>
+          </li>
+        ))}
+      </ul>
+      <Routes>
+        <Route path="/" caseSensitive={false} element={<Home />} />
+        <Route path="/About" caseSensitive={false} element={<About />} />
+      </Routes>
+    </Router>
   );
 }
 
